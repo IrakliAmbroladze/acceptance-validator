@@ -1,8 +1,23 @@
-use axum::{routing::get, Router};
+use axum::{
+    routing::{get, post},
+    Json, Router,
+};
+use serde::{Deserialize, Serialize};
+
+#[derive(Deserialize)]
+struct ValidateRequest {
+    name: String,
+}
+#[derive(Serialize)]
+struct ValidateResponse {
+    valid: bool,
+}
 
 #[tokio::main]
 async fn main() {
-    let app = Router::new().route("/health", get(health));
+    let app = Router::new()
+        .route("/health", get(health))
+        .route("/validate", post(validate));
     let addr = "0.0.0.0:8080";
 
     let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
@@ -14,4 +29,10 @@ async fn main() {
 
 async fn health() -> &'static str {
     "ok"
+}
+
+async fn validate(Json(payload): Json<ValidateRequest>) -> Json<ValidateResponse> {
+    Json(ValidateResponse {
+        valid: !payload.name.trim().is_empty(),
+    })
 }
