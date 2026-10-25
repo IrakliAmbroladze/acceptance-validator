@@ -5,6 +5,7 @@ use axum::{
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
 struct Services {
     disinsection: bool,
     deratization: bool,
