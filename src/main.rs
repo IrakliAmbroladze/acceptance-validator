@@ -2,22 +2,13 @@ use axum::{
     routing::{get, post},
     Json, Router,
 };
-use serde::{Deserialize, Serialize};
+use models::AcceptanceFormData;
+use serde::Serialize;
+use validators::validate_services;
 
-#[derive(Deserialize)]
-#[serde(rename_all = "camelCase")]
-struct AcceptanceFormData {
-    services: Services,
-}
+mod models;
+mod validators;
 
-#[derive(Deserialize)]
-#[serde(rename_all = "camelCase")]
-struct Services {
-    disinsection: bool,
-    deratization: bool,
-    disinfection: bool,
-    subcontractor_prevention: bool,
-}
 #[derive(Serialize)]
 struct ValidateResponse {
     valid: bool,
@@ -43,9 +34,6 @@ async fn health() -> &'static str {
 
 async fn validate(Json(payload): Json<AcceptanceFormData>) -> Json<ValidateResponse> {
     Json(ValidateResponse {
-        valid: payload.services.disinsection
-            || payload.services.deratization
-            || payload.services.disinfection
-            || payload.services.subcontractor_prevention,
+        valid: validate_services(&payload.services),
     })
 }
