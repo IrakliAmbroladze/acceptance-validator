@@ -6,6 +6,12 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
+struct AcceptanceFormData {
+    services: Services,
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
 struct Services {
     disinsection: bool,
     deratization: bool,
@@ -35,11 +41,11 @@ async fn health() -> &'static str {
     "ok"
 }
 
-async fn validate(Json(payload): Json<Services>) -> Json<ValidateResponse> {
+async fn validate(Json(payload): Json<AcceptanceFormData>) -> Json<ValidateResponse> {
     Json(ValidateResponse {
-        valid: payload.disinsection
-            || payload.deratization
-            || payload.disinfection
-            || payload.subcontractor_prevention,
+        valid: payload.services.disinsection
+            || payload.services.deratization
+            || payload.services.disinfection
+            || payload.services.subcontractor_prevention,
     })
 }
