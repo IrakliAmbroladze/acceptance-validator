@@ -5,8 +5,11 @@ use axum::{
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize)]
-struct ValidateRequest {
-    name: String,
+struct Services {
+    disinsection: bool,
+    deratization: bool,
+    disinfection: bool,
+    subcontractor_prevention: bool,
 }
 #[derive(Serialize)]
 struct ValidateResponse {
@@ -31,8 +34,11 @@ async fn health() -> &'static str {
     "ok"
 }
 
-async fn validate(Json(payload): Json<ValidateRequest>) -> Json<ValidateResponse> {
+async fn validate(Json(payload): Json<Services>) -> Json<ValidateResponse> {
     Json(ValidateResponse {
-        valid: !payload.name.trim().is_empty(),
+        valid: payload.disinsection
+            || payload.deratization
+            || payload.disinfection
+            || payload.subcontractor_prevention,
     })
 }
