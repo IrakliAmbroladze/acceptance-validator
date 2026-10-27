@@ -4,6 +4,7 @@ use serde::Deserialize;
 #[serde(rename_all = "camelCase")]
 pub struct AcceptanceFormData {
     pub services: Services,
+    pub pests: Vec<Pest>,
 }
 
 #[derive(Deserialize)]
@@ -14,3 +15,7 @@ pub struct Services {
     pub disinfection: bool,
     pub subcontractor_prevention: bool,
 }
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Pest {}
