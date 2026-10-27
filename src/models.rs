@@ -18,4 +18,10 @@ pub struct Services {
 
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Pest {}
+pub struct Pest {
+    pub name: String,
+    pub checked: bool,
+    pub monitor: bool,
+    pub spray: bool,
+    pub gel: bool,
+}
