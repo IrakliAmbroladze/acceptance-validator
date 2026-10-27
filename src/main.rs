@@ -4,7 +4,7 @@ use axum::{
 };
 use models::AcceptanceFormData;
 use serde::Serialize;
-use validators::validate_services;
+use validators::{validate_pests, validate_services};
 
 mod models;
 mod validators;
@@ -34,6 +34,6 @@ async fn health() -> &'static str {
 
 async fn validate(Json(payload): Json<AcceptanceFormData>) -> Json<ValidateResponse> {
     Json(ValidateResponse {
-        valid: validate_services(&payload.services),
+        valid: validate_services(&payload.services) || validate_pests(payload.pests),
     })
 }
