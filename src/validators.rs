@@ -7,7 +7,7 @@ pub fn validate_services(services: &Services) -> bool {
         || services.subcontractor_prevention
 }
 
-pub fn validate_pests(pests: Vec<Pest>) -> bool {
+pub fn validate_pests(pests: &[Pest]) -> bool {
     pests
         .iter()
         .any(|pest| pest.monitor || pest.spray || pest.gel)

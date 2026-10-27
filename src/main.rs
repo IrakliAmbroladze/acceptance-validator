@@ -34,6 +34,6 @@ async fn health() -> &'static str {
 
 async fn validate(Json(payload): Json<AcceptanceFormData>) -> Json<ValidateResponse> {
     Json(ValidateResponse {
-        valid: validate_services(&payload.services) || validate_pests(payload.pests),
+        valid: validate_services(&payload.services) && validate_pests(&payload.pests),
     })
 }
