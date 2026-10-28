@@ -5,6 +5,7 @@ use serde::Deserialize;
 pub struct AcceptanceFormData {
     pub services: Services,
     pub pests: Vec<Pest>,
+    pub products: Vec<Product>,
 }
 
 #[derive(Deserialize)]
@@ -24,4 +25,13 @@ pub struct Pest {
     pub monitor: bool,
     pub spray: bool,
     pub gel: bool,
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Product {
+    pub name: String,
+    pub checked: bool,
+    pub dosage: String,
+    pub used: String,
 }
