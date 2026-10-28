@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use serde::Deserialize;
 
 #[derive(Deserialize)]
@@ -6,6 +8,7 @@ pub struct AcceptanceFormData {
     pub services: Services,
     pub pests: Vec<Pest>,
     pub products: Vec<Product>,
+    pub spaces: HashMap<String, bool>,
 }
 
 #[derive(Deserialize)]
