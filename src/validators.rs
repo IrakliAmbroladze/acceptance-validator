@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use crate::models::{Pest, Product, Services};
 
 pub fn validate_services(services: &Services) -> bool {
@@ -17,4 +19,8 @@ pub fn validate_products(products: &[Product]) -> bool {
     products
         .iter()
         .any(|product| !product.used.trim().is_empty())
+}
+
+pub fn validate_spaces(spaces: &HashMap<String, bool>) -> bool {
+    spaces.values().any(|&selected| selected)
 }
