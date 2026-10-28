@@ -1,4 +1,4 @@
-use crate::models::{Pest, Services};
+use crate::models::{Pest, Product, Services};
 
 pub fn validate_services(services: &Services) -> bool {
     services.disinsection
@@ -11,4 +11,8 @@ pub fn validate_pests(pests: &[Pest]) -> bool {
     pests
         .iter()
         .any(|pest| pest.monitor || pest.spray || pest.gel)
+}
+
+pub fn validate_products(products: &[Product]) -> bool {
+    products.iter().any(|product| product.name.trim() != "")
 }
