@@ -14,5 +14,7 @@ pub fn validate_pests(pests: &[Pest]) -> bool {
 }
 
 pub fn validate_products(products: &[Product]) -> bool {
-    products.iter().any(|product| product.name.trim() != "")
+    products
+        .iter()
+        .any(|product| !product.used.trim().is_empty())
 }
