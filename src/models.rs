@@ -10,8 +10,23 @@ pub struct AcceptanceFormData {
     pub products: Vec<Product>,
     pub spaces: HashMap<String, bool>,
     pub criteria: HashMap<String, Option<bool>>,
+    pub customer: Customer,
+    pub start_time: String,
+    pub end_time: String,
+    pub comment: String,
 }
 
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Customer {
+    pub representative: Representative,
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Representative {
+    pub name: String,
+}
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Services {
