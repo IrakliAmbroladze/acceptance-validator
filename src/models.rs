@@ -9,6 +9,7 @@ pub struct AcceptanceFormData {
     pub pests: Vec<Pest>,
     pub products: Vec<Product>,
     pub spaces: HashMap<String, bool>,
+    pub criteria: HashMap<String, Option<bool>>,
 }
 
 #[derive(Deserialize)]
