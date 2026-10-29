@@ -6,6 +6,8 @@ use models::AcceptanceFormData;
 use serde::Serialize;
 use validators::{validate_pests, validate_products, validate_services, validate_spaces};
 
+use crate::validators::validate_criteria;
+
 mod models;
 mod validators;
 
@@ -37,6 +39,7 @@ async fn validate(Json(payload): Json<AcceptanceFormData>) -> Json<ValidateRespo
         valid: validate_services(&payload.services)
             && validate_pests(&payload.pests)
             && validate_products(&payload.products)
-            && validate_spaces(&payload.spaces),
+            && validate_spaces(&payload.spaces)
+            && validate_criteria(&payload.criteria),
     })
 }
