@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::models::{Pest, Product, Services};
+use crate::models::{AcceptanceFormData, Pest, Product, Services};
 
 pub fn validate_services(services: &Services) -> bool {
     services.disinsection
@@ -33,4 +33,11 @@ const CRITERIA_IDS: &[&str] = &[
 
 pub fn validate_criteria(criteria: &HashMap<String, Option<bool>>) -> bool {
     CRITERIA_IDS.iter().all(|id| criteria.contains_key(*id))
+}
+
+pub fn validate_required_fields(form_data: &AcceptanceFormData) -> bool {
+    !form_data.customer.representative.name.trim().is_empty()
+        && !form_data.start_time.trim().is_empty()
+        && !form_data.end_time.trim().is_empty()
+        && !form_data.comment.trim().is_empty()
 }
