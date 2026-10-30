@@ -15,6 +15,7 @@ mod validators;
 #[derive(Serialize)]
 struct ValidateResponse {
     valid: bool,
+    error: Option<String>,
 }
 
 #[tokio::main]
@@ -38,13 +39,47 @@ async fn health() -> &'static str {
 }
 
 async fn validate(Json(payload): Json<AcceptanceFormData>) -> Json<ValidateResponse> {
-    println!("{:#?}", payload);
+    //println!("{:#?}", payload);
+    if !validate_services(&payload.services) {
+        return Json(ValidateResponse {
+            valid: false,
+            error: Some("მინიმუმ ერთი პროცედურა უნდა იყოს მონიშნული".into()),
+        });
+    }
+    if !validate_pests(&payload.pests) {
+        return Json(ValidateResponse {
+            valid: false,
+            error: Some("მინიმუმ ერთი გატარებული ღონისძიება უნდა იყოს მონიშნული".into()),
+        });
+    }
+    if !validate_products(&payload.products) {
+        return Json(ValidateResponse {
+            valid: false,
+            error: Some("მინიმუმ ერთი გახარჯული რაოდენობა უნდა იყოს მითითებული".into()),
+        });
+    }
+    if !validate_spaces(&payload.spaces) {
+        return Json(ValidateResponse {
+            valid: false,
+            error: Some("მინიმუმ ერთი სივრცე უნდა იყოს მონიშნული".into()),
+        });
+    }
+    if !validate_criteria(&payload.criteria) {
+        return Json(ValidateResponse {
+            valid: false,
+            error: Some("ინსპექტირებაში ყველა კრიტერიუმი უნდა იყოს მონიშნული".into()),
+        });
+    }
+    if !validate_required_fields(&payload) {
+        return Json(ValidateResponse {
+            valid: false,
+            error: Some(
+                "დამკვეთის სახელი, დაწყების დრო, დასრულების დრო და კომენტარი სავალდებულოა".into(),
+            ),
+        });
+    }
     Json(ValidateResponse {
-        valid: validate_services(&payload.services)
-            && validate_pests(&payload.pests)
-            && validate_products(&payload.products)
-            && validate_spaces(&payload.spaces)
-            && validate_criteria(&payload.criteria)
-            && validate_required_fields(&payload),
+        valid: true,
+        error: None,
     })
 }
