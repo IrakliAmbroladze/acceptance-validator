@@ -4,6 +4,7 @@ use axum::{
 };
 use models::AcceptanceFormData;
 use serde::Serialize;
+use tower_http::cors;
 use validators::{validate_pests, validate_products, validate_services, validate_spaces};
 
 use crate::validators::{validate_criteria, validate_required_fields};
@@ -18,9 +19,11 @@ struct ValidateResponse {
 
 #[tokio::main]
 async fn main() {
+    let cors = cors::CorsLayer::permissive();
     let app = Router::new()
         .route("/health", get(health))
-        .route("/validate", post(validate));
+        .route("/validate", post(validate))
+        .layer(cors);
     let addr = "0.0.0.0:8080";
 
     let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
