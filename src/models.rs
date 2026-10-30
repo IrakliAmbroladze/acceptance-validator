@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use serde::Deserialize;
 
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AcceptanceFormData {
     pub services: Services,
@@ -16,18 +16,18 @@ pub struct AcceptanceFormData {
     pub comment: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Customer {
     pub representative: Representative,
 }
 
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Representative {
     pub name: String,
 }
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Services {
     pub disinsection: bool,
@@ -36,7 +36,7 @@ pub struct Services {
     pub subcontractor_prevention: bool,
 }
 
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Pest {
     pub name: String,
@@ -46,7 +46,7 @@ pub struct Pest {
     pub gel: bool,
 }
 
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Product {
     pub name: String,
